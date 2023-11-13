@@ -20,4 +20,9 @@ class DslFalse implements DslStatement
 
 	}
 
+
+	@Override
+	public String toString() {
+		return "FALSE";
+	}
 }

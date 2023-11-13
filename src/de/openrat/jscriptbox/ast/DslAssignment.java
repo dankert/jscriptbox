@@ -79,4 +79,10 @@ public class DslAssignment implements DslStatement
 			this.target = null;
 		}*/
 	}
+
+
+	@Override
+	public String toString() {
+		return "ASSIGNMENT";
+	}
 }

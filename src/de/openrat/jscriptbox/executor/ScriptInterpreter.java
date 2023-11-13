@@ -229,4 +229,11 @@ public class ScriptInterpreter {
     public void removeFlag( int flag ) {
         this.flags -= flag;
     }
+
+    @Override
+    public String toString() {
+        return "Interpreter{" +
+                  "flags="+this.flags +
+                "}";
+    }
 }

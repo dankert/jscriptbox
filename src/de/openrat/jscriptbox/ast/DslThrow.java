@@ -27,4 +27,10 @@ class DslThrow implements DslStatement
 		Object value = this.value.execute( context );
 		throw new ScriptRuntimeException( value.toString() );
 	}
+
+
+	@Override
+	public String toString() {
+		return "THROW";
+	}
 }

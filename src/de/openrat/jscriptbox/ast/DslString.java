@@ -32,4 +32,9 @@ public class DslString implements DslStatement
 	public void parse(Queue<Token> tokens)
 	{
 	}
+
+	@Override
+	public String toString() {
+		return "\"" + this.string + "\"";
+	}
 }

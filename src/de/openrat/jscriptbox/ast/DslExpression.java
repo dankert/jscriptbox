@@ -277,4 +277,10 @@ class DslExpression extends DslElement implements DslStatement
 		else
 			return new ObjectInstance(value); // Unsecured, but wanted.
 	}
+
+
+	@Override
+	public String toString() {
+		return "EXPR";
+	}
 }

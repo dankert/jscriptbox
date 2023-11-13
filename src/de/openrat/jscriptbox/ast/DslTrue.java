@@ -20,4 +20,9 @@ class DslTrue implements DslStatement
 	public Object execute(Context context) throws ScriptRuntimeException {
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "TRUE";
+	}
 }

@@ -18,4 +18,10 @@ public class DslDecimal implements DslStatement
 	public void parse(Queue<Token> tokens)
 	{
 	}
+
+
+	@Override
+	public String toString() {
+		return "DEC";
+	}
 }

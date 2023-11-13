@@ -139,4 +139,10 @@ class DslOperation implements DslStatement
 		}
 		return true;
 	}
+
+
+	@Override
+	public String toString() {
+		return "OP '"+this.operator+"'";
+	}
 }

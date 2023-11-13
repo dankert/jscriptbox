@@ -35,4 +35,9 @@ class DslInteger implements DslStatement
 	public Long getNumber() {
 		return number;
 	}
+
+	@Override
+	public String toString() {
+		return "" + number;
+	}
 }

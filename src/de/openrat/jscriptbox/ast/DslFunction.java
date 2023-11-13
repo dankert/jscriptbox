@@ -70,4 +70,9 @@ class DslFunction extends DslElement implements DslStatement
 	{
 	}
 
+
+	@Override
+	public String toString() {
+		return "FUNCTION";
+	}
 }

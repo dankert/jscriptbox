@@ -148,4 +148,10 @@ class DslElement
 
 		return parts;
 	}
+
+
+	@Override
+	public String toString() {
+		return "ELEMENT";
+	}
 }

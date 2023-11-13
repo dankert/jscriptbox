@@ -123,4 +123,12 @@ class DslFunctionCall implements DslStatement
 
 			}).toList();
 	}
+
+	@Override
+	public String toString() {
+		return "FunctionCall{" +
+				"name=" + name +
+				", callParameters=" + callParameters +
+				'}';
+	}
 }

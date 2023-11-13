@@ -45,4 +45,13 @@ public class Context extends HashMap<String,Object> {
         copy.putAll( subContext );
         return copy;
     }
+
+
+    @Override
+    public String toString() {
+        return "Context{" +
+                "secure=" + !allowNonScriptableObjects +
+                ", content=" + super.toString() +
+                '}';
+    }
 }

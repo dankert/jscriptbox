@@ -18,4 +18,9 @@ class DslNull implements DslStatement
 	public Object execute(Context context) {
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "NULL";
+	}
 }

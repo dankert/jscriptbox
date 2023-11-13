@@ -50,4 +50,10 @@ class DslProperty implements DslStatement
 	public void parse(Queue<Token> tokens)
 	{
 	}
+
+
+	@Override
+	public String toString() {
+		return "Property";
+	}
 }

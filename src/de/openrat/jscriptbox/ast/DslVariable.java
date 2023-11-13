@@ -67,4 +67,9 @@ class DslVariable implements DslStatement
 
 	}
 
+
+	@Override
+	public String toString() {
+		return "Variable '" + name + "'";
+	}
 }
