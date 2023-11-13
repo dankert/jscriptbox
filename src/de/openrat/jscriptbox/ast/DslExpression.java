@@ -5,6 +5,7 @@ package de.openrat.jscriptbox.ast;
 import de.openrat.jscriptbox.context.BaseScriptable;
 import de.openrat.jscriptbox.context.Context;
 import de.openrat.jscriptbox.context.Scriptable;
+import de.openrat.jscriptbox.context.ScriptableFunction;
 import de.openrat.jscriptbox.exception.ScriptParserException;
 import de.openrat.jscriptbox.exception.ScriptRuntimeException;
 import de.openrat.jscriptbox.parser.Token;
@@ -116,7 +117,7 @@ class DslExpression extends DslElement implements DslStatement
 
 
 
-		Queue<DslStatement> outputQueue   = new LinkedList<>();
+		Stack<DslStatement> outputStack   = new Stack<>();
 		Stack<Token> operatorStack = new Stack<>();
 
 		/*
@@ -148,9 +149,9 @@ class DslExpression extends DslElement implements DslStatement
 						precedence.get(operatorStack.peek().getValue()) >= precedence.get(token.getValue()) + assoc.get(token.getValue())) {
 					// pop operators from the operator stack, onto the output queue.
 
-					left  = outputQueue.poll();
-					right = outputQueue.poll();
-					outputQueue.add( this.createNode( operatorStack.pop(),left,right ) );
+					left  = outputStack.pop();
+					right = outputStack.pop();
+					outputStack.push( this.createNode( operatorStack.pop(),left,right ) );
 				}
 				// push the read operator onto the operator stack.
 				operatorStack.add(token);
@@ -165,9 +166,9 @@ class DslExpression extends DslElement implements DslStatement
 				// while the operator at the top of the operator stack is not a left bracket:
 				while (!operatorStack.peek().getValue().equals("(")) {
 					// pop operators from the operator stack onto the output queue.
-					left  = outputQueue.poll();
-					right = outputQueue.poll();
-					outputQueue.add( this.createNode( operatorStack.pop(),left,right ));
+					left  = outputStack.pop();
+					right = outputStack.pop();
+					outputStack.add( this.createNode( operatorStack.pop(),left,right ));
 
 					// /* if the stack runs out without finding a left bracket, then there are
 					// mismatched parentheses. */
@@ -181,7 +182,7 @@ class DslExpression extends DslElement implements DslStatement
 
 			}
 			else {
-					outputQueue.add( this.tokenToStatement( token ) );
+					outputStack.add( this.tokenToStatement( token ) );
 			}
 		} // if there are no more tokens to read:
 
@@ -195,12 +196,12 @@ class DslExpression extends DslElement implements DslStatement
 				throw new ScriptParserException( "Mismatched '(' parentheses", token.getLineNumber());
 			}
 			// pop the operator onto the output queue.
-			left  = outputQueue.poll();
-			right = outputQueue.poll();
-			outputQueue.add(this.createNode( token,left,right ));
+			left  = outputStack.pop();
+			right = outputStack.pop();
+			outputStack.add(this.createNode( token,left,right ));
 		}
 
-		this.value = outputQueue.poll();
+		this.value = outputStack.pop();
 	}
 
 	/**
@@ -269,6 +270,10 @@ class DslExpression extends DslElement implements DslStatement
 
 		if   ( value instanceof BaseScriptable) {
 			return (BaseScriptable)value;
+		}
+
+		if   ( value instanceof ScriptableFunction) {
+			return (Scriptable)value;
 		}
 
 		if   ( value instanceof Scriptable) {
