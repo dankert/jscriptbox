@@ -130,6 +130,7 @@ public class ScriptInterpreter {
 
     public Object run() throws ScriptRuntimeException {
 
+        this.writer.clear();
         if   ( this.hasFlag( FLAG_DEBUG )) {
 
             if   ( this.logWriter != null ) {
@@ -149,12 +150,12 @@ public class ScriptInterpreter {
                 if (this.hasFlag(FLAG_SHOW_TRACE))
                     this.writer.write(e.toString());
                 else
-                    this.writer.buffer.append(e.getMessage());
+                    this.writer.write(e.getMessage());
             }
             if (this.hasFlag(FLAG_THROW_ERROR))
                 throw e;
             else
-                return null;
+                return null; // no return value
         }
     }
 

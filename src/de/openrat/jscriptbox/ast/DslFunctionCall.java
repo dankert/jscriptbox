@@ -1,6 +1,9 @@
 package de.openrat.jscriptbox.ast;
 
 import de.openrat.jscriptbox.context.Context;
+import de.openrat.jscriptbox.context.Invoke;
+import de.openrat.jscriptbox.context.MethodWrapper;
+import de.openrat.jscriptbox.context.ScriptableFunction;
 import de.openrat.jscriptbox.exception.ScriptRuntimeException;
 import de.openrat.jscriptbox.parser.Token;
 import de.openrat.jscriptbox.standard.internal.ArrayInstance;
@@ -49,9 +52,15 @@ class DslFunctionCall implements DslStatement
 		Object function = this.name.execute( context );
 
 		final Object parameterValuesRaw = this.callParameters.execute( context );
+
 		List parameterValues = new ArrayList<>();
+
 		if   ( parameterValuesRaw instanceof ArrayInstance)
 			 parameterValues.addAll( ((ArrayInstance)parameterValuesRaw).getInternalValue() );
+		else 		if   ( parameterValuesRaw instanceof List<?>)
+			parameterValues.addAll( (List)parameterValuesRaw );
+
+		else parameterValues.add(parameterValuesRaw);
 
 		// if there is only 1 parameter it must be converted to an array.
 		// if there are more than 1 parameter, it is already a sequence
@@ -76,16 +85,51 @@ class DslFunctionCall implements DslStatement
 			return ((DslFunction)function).execute( subContext );
 
 		}
-		else if   ( function instanceof Method ) {
+		else if   ( function instanceof MethodWrapper) {
 
-			Method method = ((Method) function);
+			MethodWrapper methodWrapper = ((MethodWrapper) function);
 			//Object result = method.invoke(null, this.toPrimitiveValues(parameterValues));
+
+			if (methodWrapper.getMethod().getParameterCount() != parameterValues.size())
+				throw new ScriptRuntimeException("Function call has " + parameterValues.size() + " parameters but the function needs " + methodWrapper.getMethod().getParameterCount() + " parameters");
+
 			try {
-				Object result = method.invoke(null, parameterValues);
+				Object result = methodWrapper.getMethod().invoke(methodWrapper.getScriptable(), parameterValues.toArray());
 				return DslExpression.convertValueToStandardObject( result,context );
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				throw new ScriptRuntimeException("Calling function '"+name.toString()+"' failed.");
 			}
+		}
+		else if   ( function instanceof ScriptableFunction) {
+
+			Method methodToCall = null;
+
+			for( Method method : function.getClass().getMethods() ) {
+				if   ( method.isAnnotationPresent(Invoke.class)) {
+					methodToCall = method;
+					break;
+				}
+			}
+
+			if   ( methodToCall == null )
+				throw new ScriptRuntimeException("Function '"+function.toString()+"' needs a method annotated with "+Invoke.class.getSimpleName() );
+			
+			// The parameter count must match. Java has no optional parameters like PHP oder JS.
+			if (methodToCall.getParameterCount() != parameterValues.size())
+				throw new ScriptRuntimeException("Function call has " + parameterValues.size() + " parameters but the function needs " + methodToCall.getParameterCount() + " parameters");
+
+			Object result;
+			try {
+				result = methodToCall.invoke(function,parameterValues.toArray());
+			} catch (IllegalAccessException e) {
+				throw new ScriptRuntimeException(e.getMessage(),e);
+			} catch (InvocationTargetException e) {
+				throw new ScriptRuntimeException(e.getMessage(),e);
+			} catch (Exception e) {
+			throw new ScriptRuntimeException(e.getMessage(),e);
+		}
+
+			return result;
 		}
 		else
 			throw new ScriptRuntimeException("Function or method '"+function.toString()+"' is not callable."  );

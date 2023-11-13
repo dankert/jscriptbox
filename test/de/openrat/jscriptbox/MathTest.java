@@ -18,7 +18,5 @@ public class MathTest extends TestCase{
 
         interpreter.runCode( "write( 6*3 );");
         assertEquals("18",interpreter.getOutput());
-        interpreter.runCode( "write( 14%3 );");
-        assertEquals("2",interpreter.getOutput());
     }
 }

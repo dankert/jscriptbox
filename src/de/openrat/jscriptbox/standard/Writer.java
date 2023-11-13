@@ -7,7 +7,7 @@ import de.openrat.jscriptbox.context.ScriptableFunction;
 
 public class Writer implements ScriptableFunction
 {
-	public StringBuffer buffer = new StringBuffer();
+	private StringBuffer buffer;
 
 	/**
 	 * Write something to an output queue.
@@ -17,14 +17,20 @@ public class Writer implements ScriptableFunction
 	@Invoke
 	public void write( Object text )
 	{
-		if   ( text instanceof CharSequence )
+		if   ( this.buffer == null )
+			buffer = new StringBuffer();
 
+		if   ( text instanceof CharSequence )
 			this.buffer.append(text);
 		else
 			this.buffer.append(text.toString());
 	}
 
 	public String getBuffer() {
-		return buffer.toString();
+		return buffer == null ? null : buffer.toString();
+	}
+
+	public void clear() {
+		this.buffer = null;
 	}
 }

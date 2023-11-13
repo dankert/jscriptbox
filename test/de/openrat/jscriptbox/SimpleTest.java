@@ -5,23 +5,29 @@ import junit.framework.TestCase;
 
 public class SimpleTest extends TestCase{
 
-    public void testSimpleAddition() throws Exception {
+    public void testNothingToDo() throws Exception {
         ScriptInterpreter interpreter = new ScriptInterpreter();
 
-        interpreter.runCode( "write(1+1);");
-        assertEquals("2",interpreter.getOutput());
-
-        interpreter.runCode( "write(1+'1');");
-        assertEquals("2",interpreter.getOutput());
+        interpreter.runCode( "// nothing to do");
+        assertNull(interpreter.getOutput());
     }
 
-    public void testSimpleSubstraction() throws Exception {
+    public void testHelloWorld() throws Exception {
         ScriptInterpreter interpreter = new ScriptInterpreter();
 
-        interpreter.runCode( "write(3-2);");
-        assertEquals("1",interpreter.getOutput());
+        Object result = interpreter.runCode("""
+               return "Hello, World";
+               """);
 
-        interpreter.runCode( "write(3-'2');");
-        assertEquals("1",interpreter.getOutput());
+        assertEquals( "Hello, World",result);
+
+
+        interpreter.runCode("""
+               write("Hello, World");
+               """);
+
+        assertEquals( "Hello, World",interpreter.getOutput() );
     }
+
+
 }

@@ -66,11 +66,9 @@ public class ObjectContext implements Context {
             throw new ScriptRuntimeException("Property or method '"+name+"' found in '"+scriptable.toString()+"' is not accessible." );
         }
 
-        try {
-            Method method = scriptable.getClass().getMethod(name,scriptable.getClass());
-            return method;
-        }catch( NoSuchMethodException e) {
-
+        for( Method method : scriptable.getClass().getMethods() ) {
+            if   ( method.getName().equals(name))
+                return new MethodWrapper( scriptable,method );
         }
 
         throw new ScriptRuntimeException("No property or method '"+name+"' found in '"+scriptable.toString()+"'" );

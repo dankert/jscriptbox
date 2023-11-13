@@ -134,10 +134,14 @@ public class Lexer {
 
                     while (true) {
                         Character c = chars.pollFirst();
-                        if (c == '\n' )
-                            line++;
-                        if (c == '\n' || c == null)
+
+                        if (c == null)
                             continue charloop;
+
+                        if (c == '\n' ) {
+                            line++;
+                            continue charloop;
+                        }
                     }
 
                 }
@@ -205,6 +209,8 @@ public class Lexer {
                 String value = ""+character ;
                 while (true) {
                     character = chars.pollFirst();
+                    if   ( character == null )
+                        throw new ScriptLexerException("Unexpected end of source",line);
                     if (( character >='0' && character <='9') ||
                     character =='_' ){
                         value = value + character ;

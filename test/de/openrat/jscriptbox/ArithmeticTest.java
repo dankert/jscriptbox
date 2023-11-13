@@ -12,6 +12,8 @@ public class ArithmeticTest extends TestCase{
         assertEquals("7",interpreter.getOutput());
 
         interpreter.runCode( "write( (1+2)*3);");
-        assertEquals("6",interpreter.getOutput());
+        assertEquals("9",interpreter.getOutput());
+
+        assertEquals( 28,interpreter.runCode( "return 1+9*3;") );
     }
 }
