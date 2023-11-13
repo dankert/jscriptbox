@@ -3,6 +3,7 @@
 package de.openrat.jscriptbox.ast;
 
 import de.openrat.jscriptbox.context.Context;
+import de.openrat.jscriptbox.context.ObjectContext;
 import de.openrat.jscriptbox.context.Scriptable;
 import de.openrat.jscriptbox.exception.ScriptRuntimeException;
 import de.openrat.jscriptbox.parser.Token;
@@ -37,9 +38,7 @@ class DslProperty implements DslStatement
 
 		Scriptable objectContext = DslExpression.convertValueToStandardObject(object,context);
 
-		Context propertyContext = context.copy();
-		propertyContext.clear();
-		propertyContext.setObject( objectContext );
+		Context propertyContext = new ObjectContext( objectContext,context.isAllowNonScriptableObjects() );
 
 		Object prop = this.property.execute( propertyContext );
 

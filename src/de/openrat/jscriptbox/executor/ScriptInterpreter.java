@@ -4,6 +4,7 @@ package de.openrat.jscriptbox.executor;
 
 import de.openrat.jscriptbox.ast.DslStatement;
 import de.openrat.jscriptbox.context.Context;
+import de.openrat.jscriptbox.context.MapContext;
 import de.openrat.jscriptbox.context.Scriptable;
 import de.openrat.jscriptbox.standard.*;
 import de.openrat.jscriptbox.exception.ScriptParserException;
@@ -67,7 +68,7 @@ public class ScriptInterpreter {
     public ScriptInterpreter(int flags) {
         this.flags = flags;
 
-        this.context = new Context( this.hasFlag(FLAG_ALLOW_UNSECURE) );
+        this.context = new MapContext( this.hasFlag(FLAG_ALLOW_UNSECURE) );
         this.addStandardContext();
     }
 

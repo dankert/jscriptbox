@@ -90,7 +90,7 @@ class DslExpression extends DslElement implements DslStatement
 
 		Map<String,Integer> assoc = Map.ofEntries(
 
-				Map.entry(				","   , LEFT),
+				Map.entry(","   , LEFT),
 				Map.entry("="   , RIGHT),
 				Map.entry("-="  , RIGHT),
 				Map.entry("+="  , RIGHT),
@@ -269,6 +269,10 @@ class DslExpression extends DslElement implements DslStatement
 
 		if   ( value instanceof BaseScriptable) {
 			return (BaseScriptable)value;
+		}
+
+		if   ( value instanceof Scriptable) {
+			return (Scriptable)value;
 		}
 
 		if   ( !context.isAllowNonScriptableObjects() )
