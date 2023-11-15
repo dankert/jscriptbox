@@ -62,11 +62,6 @@ class DslFunctionCall implements DslStatement
 
 		else parameterValues.add(parameterValuesRaw);
 
-		// if there is only 1 parameter it must be converted to an array.
-		// if there are more than 1 parameter, it is already a sequence
-		//if   ( ! is_array(parameterValues)) parameterValues = array(parameterValues);
-
-
 		if   ( function instanceof DslFunction ) {
 			// inscript custom function
 			List<String> functionParameters = ((DslFunction) function).parameters;
@@ -91,7 +86,7 @@ class DslFunctionCall implements DslStatement
 			//Object result = method.invoke(null, this.toPrimitiveValues(parameterValues));
 
 			if (methodWrapper.getMethod().getParameterCount() != parameterValues.size())
-				throw new ScriptRuntimeException("Function call has " + parameterValues.size() + " parameters but the function needs " + methodWrapper.getMethod().getParameterCount() + " parameters");
+				throw new ScriptRuntimeException("Method call '"+methodWrapper.getMethod().getName()+"()' has " + parameterValues.size() + " parameters but the function needs " + methodWrapper.getMethod().getParameterCount() + " parameters");
 
 			try {
 				Object result = methodWrapper.getMethod().invoke(methodWrapper.getScriptable(), parameterValues.toArray());
@@ -112,11 +107,11 @@ class DslFunctionCall implements DslStatement
 			}
 
 			if   ( methodToCall == null )
-				throw new ScriptRuntimeException("Function '"+function.toString()+"' needs a method annotated with "+Invoke.class.getSimpleName() );
+				throw new ScriptRuntimeException("ScriptableFunction '"+function.toString()+"' needs 1 method annotated with "+Invoke.class.getSimpleName() );
 			
 			// The parameter count must match. Java has no optional parameters like PHP oder JS.
 			if (methodToCall.getParameterCount() != parameterValues.size())
-				throw new ScriptRuntimeException("Function call has " + parameterValues.size() + " parameters but the function needs " + methodToCall.getParameterCount() + " parameters");
+				throw new ScriptRuntimeException("Function '"+ function.toString() +"' has " + parameterValues.size() + " parameters but the function needs " + methodToCall.getParameterCount() + " parameters");
 
 			Object result;
 			try {

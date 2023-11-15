@@ -20,4 +20,9 @@ public class MethodWrapper {
     public Scriptable getScriptable() {
         return scriptable;
     }
+
+    @Override
+    public String toString() {
+        return scriptable.getClass() + "#" + method.getName()+"()";
+    }
 }
