@@ -37,12 +37,17 @@ public class DslAssignment implements DslStatement
 
 		Object value = this.value.execute( context );
 
-		// if the variable is not already bound in this context it will be created.
-		// there is no need for a "var" or "let". they are completely obsolete.
-		//if   ( ! array_key_exists( this->target->name,context ) )
-		//	throw new DslRuntimeException('variable \''.this->target->name.'\' does not exist');
+		if   ( this.target instanceof DslVariable variable) {
 
-		context.put( this.target.execute(context).toString() ,value );
+			// if the variable is not already bound in this context it will be created.
+			// there is no need for a "var" or "let". they are completely obsolete.
+			//if   ( ! context.containsKey( variable.name ) )
+			//	throw new ScriptRuntimeException("Undefined variable: " + variable.name );
+
+			context.put( variable.name ,value );
+		} else {
+			throw new ScriptRuntimeException("Not a variable: " + this.target.toString() );
+		}
 
 		return value;
 	}
