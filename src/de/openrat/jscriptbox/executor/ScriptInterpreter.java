@@ -43,15 +43,15 @@ public class ScriptInterpreter {
      */
     public static int FLAG_SHOW_ERROR = 1;
     /**
-     * Prints the stacktrace in script output, if an error occure.
+     * Prints the stacktrace in script output, if an error occur.
      */
     public static int FLAG_SHOW_TRACE = 2;
     /**
-     * Throw @{@link ScriptRuntimeException} if an error occured.
+     * Throw @{@link ScriptRuntimeException} if an error occur.
      */
     public static int FLAG_THROW_ERROR = 4;
     /**
-     * Show debug messages on the standard outpout.
+     * Show debug messages on the standard output.
      */
     public static int FLAG_DEBUG = 8;
     /**
