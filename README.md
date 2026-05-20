@@ -112,7 +112,7 @@ and multiline comments like
 are supported
 
 
-### text
+### Text
 
 ```javascript
     write( "this is a 'string'" );  // writes to standard out
@@ -120,7 +120,7 @@ are supported
 ```
 
 
-### variables
+### Variables
 
 variables and string concatenation:
 
@@ -139,7 +139,7 @@ variables *may* be initialized with `let`,`var` or `const` but this is optional:
 every variable is _block scoped_.
 
 
-### function scope
+### Function scope
 
 variables are valid for the current block.
 
@@ -155,7 +155,7 @@ variables are valid for the current block.
     write( "but this year you are " + age ); // 18
 ```
 
-### function calls
+### Function calls
 
 Functions are auto-hoisted.
 
@@ -181,7 +181,7 @@ Example:
     }
 ```
 
-### full arithmetic calculations
+### Full arithmetic calculations
 
 ```javascript
     write( 1 + 2 * 3 ); // this resolves to 7 because of the operator priority
@@ -195,12 +195,14 @@ Example:
         write( animal + " is an animal." );
 ```
 
-### object properties
+### Access object properties
 
 ```javascript
     write( "PI is " + Math.PI );
 ```
-### throw
+### throw an error
+
+You may throw an error:
 
 ```javascript
     throw "this is an error";
