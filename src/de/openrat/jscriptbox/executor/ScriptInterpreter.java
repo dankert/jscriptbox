@@ -6,6 +6,7 @@ import de.openrat.jscriptbox.ast.DslStatement;
 import de.openrat.jscriptbox.context.Context;
 import de.openrat.jscriptbox.context.MapContext;
 import de.openrat.jscriptbox.context.Scriptable;
+import de.openrat.jscriptbox.formatter.ObjectDumper;
 import de.openrat.jscriptbox.standard.*;
 import de.openrat.jscriptbox.exception.ScriptParserException;
 import de.openrat.jscriptbox.parser.AstParser;
@@ -93,15 +94,17 @@ public class ScriptInterpreter {
 
             if   ( this.logWriter != null ) {
                 int line = 0;
-                logWriter.print("Tokenized source:");
+                logWriter.print("Tokenized source");
+                logWriter.print("................");
                 for( Token tok : token ) {
                     if   ( line != tok.getLineNumber() ) {
                         line = tok.getLineNumber();
-                        logWriter.print( "\n" + String.format("%6s", line) );
+                        logWriter.print( "\n" + String.format("%6s", line).replace(' ', '.') + " " );
                     }
 
                     logWriter.print( tok.getValue() );
                 }
+                logWriter.println();
                 logWriter.println();
             }
         }
@@ -115,8 +118,10 @@ public class ScriptInterpreter {
         if   ( this.hasFlag( FLAG_DEBUG )) {
 
             if   ( this.logWriter != null ) {
-                logWriter.println("Syntax Tree:");
-                logWriter.print( this.rootStatement );
+                logWriter.println("Syntax Tree");
+                logWriter.println("...........");
+                logWriter.println(ObjectDumper.getFormat(this.rootStatement,"  " ));
+                logWriter.println();
             }
         }
     }
@@ -134,7 +139,7 @@ public class ScriptInterpreter {
         if   ( this.hasFlag( FLAG_DEBUG )) {
 
             if   ( this.logWriter != null ) {
-                logWriter.println( "Context:"+ this.context );
+                logWriter.println( "Context: "+ this.context );
             }
         }
 

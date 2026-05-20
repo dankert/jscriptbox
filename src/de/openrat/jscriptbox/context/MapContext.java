@@ -73,7 +73,7 @@ public class MapContext implements Context {
     public String toString() {
         return "MapContext{" +
                 "secure=" + !allowNonScriptableObjects +
-                ", content=" + super.toString() +
+                ", content=" + values.toString() +
                 '}';
     }
 }

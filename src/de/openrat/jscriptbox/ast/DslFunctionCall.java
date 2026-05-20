@@ -86,7 +86,7 @@ class DslFunctionCall implements DslStatement
 			//Object result = method.invoke(null, this.toPrimitiveValues(parameterValues));
 
 			if (methodWrapper.getMethod().getParameterCount() != parameterValues.size())
-				throw new ScriptRuntimeException("Method call '"+methodWrapper.getMethod().getName()+"()' has " + parameterValues.size() + " parameters but the function needs " + methodWrapper.getMethod().getParameterCount() + " parameters");
+				throw new ScriptRuntimeException("Method call '"+methodWrapper.getMethod().getName()+"()' has " + parameterValues.size() + " parameters ("+parameterValues.toString()+") but the function needs " + methodWrapper.getMethod().getParameterCount() + " parameters");
 
 			try {
 				Object result = methodWrapper.getMethod().invoke(methodWrapper.getScriptable(), parameterValues.toArray());

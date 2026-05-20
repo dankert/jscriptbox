@@ -169,6 +169,6 @@ public class DslStatementList extends DslElement implements DslStatement
 
 	@Override
 	public String toString() {
-		return "statement list " + this.statements.size() + "x";
+		return "Statement list " + this.statements.size() + "x of " + this.statements.toString();
 	}
 }
