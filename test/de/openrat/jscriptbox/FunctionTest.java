@@ -32,4 +32,21 @@ public class FunctionTest extends TestCase {
         assertEquals("Hello, World", interpreter.getOutput());
 
     }
+    public void testFunctionWithNestedFunctionAndParameter() throws Exception {
+        ScriptInterpreter interpreter = new ScriptInterpreter();
+
+        interpreter.runCode("""
+                
+                say( text() ); // ok, lets call the function
+
+                function say( text ) {
+                    write( text );
+                }
+                function text() {
+                    return "Hello, World";
+                }
+                """);
+        assertEquals("Hello, World", interpreter.getOutput());
+
+    }
 }
