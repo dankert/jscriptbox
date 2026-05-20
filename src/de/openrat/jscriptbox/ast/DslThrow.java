@@ -5,6 +5,7 @@ package de.openrat.jscriptbox.ast;
 import de.openrat.jscriptbox.context.Context;
 import de.openrat.jscriptbox.exception.ScriptParserException;
 import de.openrat.jscriptbox.exception.ScriptRuntimeException;
+import de.openrat.jscriptbox.exception.ScriptUserDefinedException;
 import de.openrat.jscriptbox.parser.Token;
 
 import java.util.Queue;
@@ -25,7 +26,7 @@ class DslThrow implements DslStatement
 	@Override
 	public Object execute(Context context) throws ScriptRuntimeException {
 		Object value = this.value.execute( context );
-		throw new ScriptRuntimeException( value.toString() );
+		throw new ScriptUserDefinedException( value.toString() );
 	}
 
 

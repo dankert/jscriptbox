@@ -4,11 +4,20 @@
 
 This is a script interpreter for Java. Custom code is parsed and interpreted in a sandbox.
 
-The code syntax is similar to [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript). More precisely, it is a subset of Javascript.
+The code syntax is similar to [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript). More precisely, it is a **subset of Javascript**.
+
+## Advantages
+
+Tiny library with zero dependencies and a small no memory footprint. No need for a graal JS or Node JS engine.
+
+## Disadvantages
+
+Probably slow. And by no means a complete javascript engine.
+
 
 ## History
 
-It was orginally written in PHP for the [OpenRat CMS](http://www.openrat.de) and then migrated to Java.
+It was originally written in PHP for the [OpenRat CMS](http://www.openrat.de) and then migrated to Java.
 
 
 ## Details
@@ -24,47 +33,58 @@ The scripts may be used as a [domain specific language (DSL)](https://en.wikiped
 
 ## Usage
 
-There is the `dsl.DslInterpreter` class to run your code:
+Just use the `ScriptInterpreter` to run your code:
 
-    DslInterpreter interpreter = new DslInterpreter();
-    interpreter.runCode( $code );
+```java
+    ScriptInterpreter interpreter = new ScriptInterpreter();
+    interpreter.runCode( """
+      write( "Hello, World" );"
+      """ );
+```
 
-### get output
+### Get the output
 
 For getting the standard output, simply call `getOutput()`:
 
-    $interpreter = new DslInterpreter();
-    $interpreter->runCode( $code );
-    $output = $interpreter->getOutput() ); // get the output
+```java
+    ScriptInterpreter interpreter = new ScriptInterpreter();
+    interpreter.runCode( "write( \"Hello, World\" );" );
+    CharSequence output = interpreter.getOutput() ); // get the output "Hello, World"
+```
 
-### add context
+### Add classes to the script context
 
-you may add custom objects to the calling context
+A very powerful approach is to make custom objects from your application available in the script context:
 
-    $interpreter = new DslInterpreter();
-    $interpreter->addContext( [ 'mycontext'=> new MyContextObject() ]  );
-    $interpreter->runCode( $code );
+```java
+    ScriptInterpreter interpreter = new ScriptInterpreter();
+    interpreter.addToContext("bob",new Person("Bob"));
+    interpreter.runCode("""
+          write( bob.greet() ); 
+        """);
+```
 
-Your class `MyContextObject` must implement `dsl.Scriptable`,then your code may contain
+While in secure mode, your classes must implement the `Scriptable` interface, then your code may execute
 
-    mycontext.method();
+    myclass.method();
 
 ### Return values
 
 ```java
-    DslInterpreter interpreter = new DslInterpreter();
-    returnValue = interpreter.runCode( code );
+    ScriptInterpreter interpreter = new ScriptInterpreter();
+    String returnValue = interpreter.runCode( code );
 ```
 
 ### Caching
 You may cache the Script for multiple executions:
 
 ```java
-    DslInterpreter interpreter = new DslInterpreter();
-    interpreter.prepareCode( code );
-    
-    interpreter.run(); // this can be called multiple times.
-
+    ScriptInterpreter interpreter = new ScriptInterpreter();
+    interpreter.prepareCode("""
+            return "Hello, World";
+            """);
+    assertEquals("Hello, World", interpreter.run());
+    assertEquals("Hello, World", interpreter.run());
 ```
 ## Syntax
 
@@ -76,42 +96,54 @@ The language syntax is a subset of javascript.
 
 single line comments like
 
+```javascript
     // this is a comment
+```
 
-and multiline commens like
+and multiline comments like
+
+```javascript
 
     /**
      * this is a comment
      */
+```
 
 are supported
 
 
 ### text
 
+```javascript
     write( "this is a 'string'" );  // writes to standard out
     write( 'this is a "string"' );  // writes to standard out 
+```
 
 
 ### variables
 
 variables and string concatenation:
 
+```javascript
     age = 18;
     write("my age is " + age );
+```
 
 variables *may* be initialized with `let`,`var` or `const` but this is optional:
 
+```javascript
     let age = 18; // "let" is optional and completely ignored
     write("my age is " + age );
+```
 
-every variable is "block scoped".
+every variable is _block scoped_.
 
 
 ### function scope
 
 variables are valid for the current block.
 
+```javascript
     age = 18;
 
     function add() {
@@ -121,21 +153,25 @@ variables are valid for the current block.
     add();
 
     write( "but this year you are " + age ); // 18
-
+```
 
 ### function calls
 
-Example
+Functions are auto-hoisted.
 
+Example:
+
+```javascript
     write( "powered by " + name() );
 
     function name() {
         return "script sandbox";
     {
-
+```
 
 ### if / else
 
+```javascript
     age = 17;
     if   ( age < 18 )
         write( "you are under 18" );
@@ -143,51 +179,65 @@ Example
         write( "you are already 18" );
         write( "you are allowed to enter" );
     }
+```
 
 ### full arithmetic calculations
 
+```javascript
     write( 1 + 2 * 3 ); // this resolves to 7 because of the operator priority
-
+```
 ### arrays and for loops
 
+```javascript
     animals = Array.of('lion', 'ape', 'fish');
 
     for( animal of animals )
         write( animal + " is an animal." );
-
+```
 
 ### object properties
 
+```javascript
     write( "PI is " + Math.PI );
-
+```
 ### throw
 
+```javascript
     throw "this is an error";
+```
+The message is thrown as a `ScriptUserDefinedException` and is able to be catched from the calling Java code.
 
-The message is thrown as a DslRuntimeException and is able to be catched from the calling Java code.
-
-Hint: try/catch blocks in scripts are not supported.
+Hint: try/catch blocks in scripts are **not** supported.
 
 ## Template script
 
-Remember Smarty and Twig? Yes, but both have their strange syntax. Check out this template parser with a JSP-like syntax:
+Remember JSP, Smarty, Twig or Freemarker? Check out this template parser with a JSP-like syntax:
 
+```html
     <html>
     <body>
     <% age = 12; %>
     Next year your age is <%= (age+1) %></br>
-
+    </body></html>
+```
 
 ### Usage
 
-    // Parse the template, this will create a plain script
-    $templateParser = new DslTemplate();
-    $templateParser->parseTemplate($src);
+```java
+    Template template = new Template();
 
-    // That's all. Lets start the interpreter
-    $executor = new DslInterpreter();
-    $executor->runCode($templateParser->script);
-    echo( $executor->getOutput() ); // get the output
+    template.parseTemplate("""
+                    <html>
+                    <body>
+                    <% age = 12; %>
+                    Next year your age is <%= (age+1) %></br>
+                    </body>
+                    </html>
+            """);
+
+    ScriptInterpreter interpreter = new ScriptInterpreter();
+    interpreter.runCode(template.getScriptCode());
+```
 
 
 ## Unsupported
