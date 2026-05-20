@@ -87,7 +87,7 @@ public class DslStatementList extends DslElement implements DslStatement
 					String name = nameToken.getValue();
 
 					Token functionCallOp = tokens.poll();
-					if   ( functionCallOp.getType() != TokenEnum.T_OPERATOR || functionCallOp.getValue() != "" )
+					if   ( functionCallOp.getType() != TokenEnum.T_OPERATOR || functionCallOp.getValue() != "$" )
 						throw new ScriptParserException("function '"+name+"' must have a function signature");
 
 					Queue<Token> functionParameter = this.getBracket(tokens);
