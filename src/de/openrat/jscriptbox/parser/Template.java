@@ -4,10 +4,11 @@ import de.openrat.jscriptbox.exception.ScriptParserException;
 
 public class Template
 {
-	public int tagsFound;
-	public StringBuffer script;
+	private int tagsFound;
+	private StringBuffer script;
 
 	public void parseTemplate( String source ) throws ScriptParserException {
+
 
 		this.script    = new StringBuffer();
 		this.tagsFound = 0;
@@ -25,7 +26,7 @@ public class Template
 					throw new ScriptParserException("Unclosed script tag",0);
 				String code = source.substring(0,tagClose);
 				if   ( code.charAt(0) == '=' )
-					this.addWriteCommand( code.substring(1),true);
+					this.addWriteCommand( code.substring(1),false);
 				else
 					this.script.append( code + "\n" );
 
@@ -44,6 +45,10 @@ public class Template
 			for ( String line : code.split("\n") )
 				this.script.append( "write('"+line.replace("'","\'") + "\');" + "\n");
 		else
-			this.script.append("write('.code.');"+"\n");
+			this.script.append("write("+code+");"+"\n");
+	}
+
+	public String getScriptCode() {
+		return this.script.toString();
 	}
 }
