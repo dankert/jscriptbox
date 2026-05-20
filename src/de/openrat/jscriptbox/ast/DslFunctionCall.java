@@ -51,16 +51,20 @@ class DslFunctionCall implements DslStatement
 
 		Object function = this.name.execute( context );
 
-		final Object parameterValuesRaw = this.callParameters.execute( context );
-
 		List parameterValues = new ArrayList<>();
 
-		if   ( parameterValuesRaw instanceof ArrayInstance)
-			 parameterValues.addAll( ((ArrayInstance)parameterValuesRaw).getInternalValue() );
-		else 		if   ( parameterValuesRaw instanceof List<?>)
-			parameterValues.addAll( (List)parameterValuesRaw );
+		// call parameters could be null, if it is a parameter less function
+		if   ( callParameters != null ) {
 
-		else parameterValues.add(parameterValuesRaw);
+			final Object parameterValuesRaw = this.callParameters.execute(context);
+
+			if (parameterValuesRaw instanceof ArrayInstance)
+				parameterValues.addAll(((ArrayInstance) parameterValuesRaw).getInternalValue());
+			else if (parameterValuesRaw instanceof List<?>)
+				parameterValues.addAll((List) parameterValuesRaw);
+
+			else parameterValues.add(parameterValuesRaw);
+		}
 
 		if   ( function instanceof DslFunction ) {
 			// inscript custom function

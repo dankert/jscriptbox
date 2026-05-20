@@ -19,8 +19,8 @@ import java.util.*;
 
 class DslExpression extends DslElement implements DslStatement
 {
-	private int LEFT = 0;
-	private int RIGHT = 1;
+	private final static short LEFT  = 0;
+	private final static short RIGHT = 1;
 
 	private DslStatement value;
 
@@ -89,7 +89,7 @@ class DslExpression extends DslElement implements DslStatement
 				Map.entry("(",0),
 				Map.entry(")",0) );
 
-		Map<String,Integer> assoc = Map.ofEntries(
+		Map<String,Short> assoc = Map.ofEntries(
 
 				Map.entry(","   , LEFT),
 				Map.entry("="   , RIGHT),
@@ -231,7 +231,7 @@ class DslExpression extends DslElement implements DslStatement
 	private DslStatement tokenToStatement(Token token) throws ScriptParserException {
 		switch( token.getType() ) {
 			case T_NONE:
-				return new DslInteger( 0 );
+				return null;
 			case T_NULL:
 				return new DslNull();
 			case T_TRUE:
@@ -245,7 +245,7 @@ class DslExpression extends DslElement implements DslStatement
 			case T_STRING:
 				return new DslVariable( token.getValue() );
 			case T_DOT:
-				throw new IllegalStateException("geht nicht");
+				throw new ScriptParserException("internal error"); // geht nicht
 				//return new DslProperty( token.getValue() );
 			default:
 				throw new ScriptParserException("Unknown token: '" + token.getValue()+"'",token.getLineNumber());

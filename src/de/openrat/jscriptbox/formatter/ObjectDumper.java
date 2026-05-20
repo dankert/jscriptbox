@@ -26,6 +26,11 @@ public class ObjectDumper {
     public static List<DumpLine> dumpStatement(Object statement, int depth) {
         List<DumpLine> lines = new ArrayList<>();
 
+        if   ( statement == null ) {
+            lines.add( new DumpLine( depth, "NULL" ) );
+            return lines;
+        }
+
         lines.add( new DumpLine( depth, statement.getClass().getSimpleName() + " " + statement.toString() ) );
         for( Field field : statement.getClass().getDeclaredFields() ) {
             if   (!Modifier.isStatic(field.getModifiers())) {
