@@ -10,7 +10,7 @@
 
     <name>jscriptbox</name>
     <url>https://github.com/dankert/jscriptbox</url>
-
+    <description>Scripting Sandbox for Java</description>
     <licenses>
         <license>
             <name>LGPL-3.0-or-later</name>
@@ -22,6 +22,7 @@
         <developer>
             <name>Jan Dankert</name>
             <url>http://www.jandankert.de</url>
+            <email>develop+jscriptbox@jandankert.de</email>
             <timezone>Europe/Berlin</timezone>
         </developer>
     </developers>
