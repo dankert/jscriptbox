@@ -4,14 +4,11 @@ import de.jandankert.jscriptbox.context.BaseScriptable;
 
 /**
  * System information.
- *
- * @package dsl\standard
  */
 public class System extends BaseScriptable
 {
 	/**
-	 * runtime
-	 * @var string
+	 * Runtime version
 	 */
 	public String version;
 

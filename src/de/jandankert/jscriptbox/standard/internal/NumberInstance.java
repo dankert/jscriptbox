@@ -12,7 +12,7 @@ public class NumberInstance extends BaseScriptable implements ContextPrimitive
 
 	/**
 	 * Number constructor.
-	 * @param $value
+	 * @param value
 	 */
 	public NumberInstance(Integer value)
 	{

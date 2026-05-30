@@ -13,7 +13,7 @@ public class StringInstance extends BaseScriptable implements ContextPrimitive
 
 	/**
 	 * Number constructor.
-	 * @param $value
+	 * @param value Value.
 	 */
 	public StringInstance(String value)
 	{

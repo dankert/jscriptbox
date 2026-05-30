@@ -124,7 +124,7 @@ class DslElement
 	/**
 	 * Split tokens on comma separator.
 	 *
-	 * @param DslToken[] functionParameter
+	 * @param functionParameter
 	 * @return DslToken[][]
 	 */
 	protected List<List<Token>> splitByComma(Queue<Token> functionParameter)

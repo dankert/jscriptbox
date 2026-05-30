@@ -6,6 +6,10 @@ import de.jandankert.jscriptbox.context.BaseScriptable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Array instance.
+ * Internal holder for an array.
+ */
 public class ArrayInstance extends BaseScriptable
 {
 	private List<Object> value;
@@ -20,12 +24,17 @@ public class ArrayInstance extends BaseScriptable
 	}
 
 
+	/**
+	 * String representation of an internal array.
+	 * @return
+	 */
 	public String toString()
 	{
 		return "[:" + value.size() + "]";
 	}
 
 	/**
+	 * Get the list.
 	 * @return mixed
 	 */
 	protected List getValue()
@@ -49,6 +58,7 @@ public class ArrayInstance extends BaseScriptable
 		return new ArrayInstance( newList );
 	}
 
+	// TODO: we need some more implementations here.
 	/*
 	public function fill( value,start,count)
 	{

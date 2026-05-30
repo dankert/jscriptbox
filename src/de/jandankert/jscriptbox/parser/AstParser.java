@@ -12,7 +12,10 @@ import java.util.Queue;
 public class AstParser
 {
 	/**
-	 * @throws ScriptParserException
+	 * Parse all tokens and creats an AST.
+	 *
+	 * @param tokens a list of all tokens.
+	 * @throws ScriptParserException if the tokens could not be parsed
 	 */
 	public DslStatement parse(Queue<Token> tokens ) throws ScriptParserException {
 

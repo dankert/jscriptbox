@@ -15,14 +15,13 @@ public class DateInstance extends BaseScriptable implements ContextPrimitive {
 	private long time;
 
 	/**
-	 * @param integer time unix timestamp
 	 */
 	public DateInstance() {
 		this.time = java.lang.System.currentTimeMillis() / 1000;
 	}
 
 	/**
-	 * @param integer time unix timestamp
+	 * @param time unix timestamp
 	 */
 	public DateInstance(long time) {
 		this.time = time;

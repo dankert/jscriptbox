@@ -13,6 +13,10 @@ public interface Context  {
 
     boolean isAllowNonScriptableObjects();
 
+    /**
+     * gets a copy of this context.
+     * @return {@link Context}
+     */
     Context copy();
 
     public Context copyAndPut( Map<String,Object> subContext );

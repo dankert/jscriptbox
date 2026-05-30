@@ -74,7 +74,6 @@ public class Lexer {
 
     /**
      * @param code
-     * @return array(DslToken)
      */
     public void tokenize(String code) throws ScriptLexerException {
 

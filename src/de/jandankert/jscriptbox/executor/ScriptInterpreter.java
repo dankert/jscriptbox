@@ -202,8 +202,6 @@ public class ScriptInterpreter {
 
     /**
      * Adding the standard context.
-     *
-     * @return void
      */
     protected void addStandardContext() {
         // Standard-Globals

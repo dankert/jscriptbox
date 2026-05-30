@@ -7,15 +7,19 @@ import de.jandankert.jscriptbox.context.ScriptableFunction;
 public class WriteWrapper implements ScriptableFunction
 {
 	/**
-	 * @var Writer
+	 * Writer.
 	 */
 	private Writer writer;
+
+	/**
+	 * Prefix.
+	 */
 	private String prefix;
 
 	/**
 	 * WriteWrapper constructor.
-	 * @param Writer writer
-	 * @param string prefix Prefix
+	 * @param writer the Writer
+	 * @param prefix Prefix
 	 */
 	public WriteWrapper( Writer writer,String prefix )
 	{

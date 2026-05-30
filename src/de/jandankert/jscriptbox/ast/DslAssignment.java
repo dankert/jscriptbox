@@ -18,7 +18,6 @@ public class DslAssignment implements DslStatement
 	 * DslAssignment constructor.
 	 * @param target DslStatement
 	 * @param value DslStatement
-	 * @throws ScriptParserException
 	 */
 	public DslAssignment( DslStatement target, DslStatement value )
 	{

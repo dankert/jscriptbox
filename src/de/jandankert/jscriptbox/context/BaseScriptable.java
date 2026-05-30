@@ -4,13 +4,16 @@ import de.jandankert.jscriptbox.standard.Helper;
 
 import java.util.Arrays;
 
+/**
+ * Standard representation of a Scriptable Object.
+ *
+ */
 public class BaseScriptable implements Scriptable
 {
 	/**
 	 * Standard String representation of a Scriptable Object.
 	 * This object becomes "Stringable".
 	 * This string may be used in userscripts, if the object is used as a string, maybe by mistake.
-	 *
 	 * This method may be overwritten by subclasses.
 	 *
 	 * @return string
@@ -32,6 +35,10 @@ public class BaseScriptable implements Scriptable
 	}
 
 
+	/**
+	 * class Name of the scriptable object.
+	 * @return String
+	 */
 	public String getClassName() {
 		return this.getClass().getName();
 	}
