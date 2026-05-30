@@ -5,7 +5,7 @@
 
     <groupId>de.jandankert.jscriptbox</groupId>
     <artifactId>jscriptbox</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>jscriptbox</name>
@@ -30,6 +30,18 @@
         <developerConnection>scm:git:ssh://github.com:dankert/jscriptbox.git</developerConnection>
         <url>http://github.com/dankert/jscriptbox/tree/master</url>
     </scm>
+    <distributionManagement>
+        <!--
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        -->
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
@@ -99,6 +111,11 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>
