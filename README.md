@@ -31,6 +31,23 @@ It consists of a lexer, a syntax parser and an interpreter.
 The scripts may be used as a [domain specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) in your application.
 
 
+## Get it
+
+### Maven
+
+[JScriptbox is in Maven central](https://central.sonatype.com/artifact/de.jandankert.jscriptbox/jscriptbox).
+
+In `pom.xml`
+```xml
+<dependency>
+    <groupId>de.jandankert.jscriptbox</groupId>
+    <artifactId>jscriptbox</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+###
+
+
 ## Usage
 
 Just use the `ScriptInterpreter` to run your code:
